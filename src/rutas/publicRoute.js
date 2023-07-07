@@ -12,6 +12,10 @@ export default function PublicRoute({ component: Component, ...rest }) {
         url = "/admin"
     }
 
+    if (parseInt(localStorage.getItem('numRol')) === 2) {
+        url = "/contactos"
+    }
+
 
 
     return (

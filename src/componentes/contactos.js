@@ -1,10 +1,10 @@
-import { Table,  } from 'reactstrap';
+import { Table, } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {  faArrowLeft, faArrowRight,  faTrashAlt, } from '@fortawesome/free-solid-svg-icons';
+import { faArrowLeft, faArrowRight, faTrashAlt, } from '@fortawesome/free-solid-svg-icons';
 import React from 'react';
 
 import useAuth from "../Auth/useAuth"
-import {  ComponenteInputBuscar_, } from './elementos/input';  // componente input que incluye algunas de las funcionalidades como, setInput, validaciones cambio de estados
+import { ComponenteInputBuscar_, } from './elementos/input';  // componente input que incluye algunas de las funcionalidades como, setInput, validaciones cambio de estados
 
 import { useState, useEffect } from "react";
 import { URL, INPUT } from '../Auth/config';
@@ -14,7 +14,7 @@ import { Toaster, toast } from 'react-hot-toast'
 import axios from 'axios';
 
 
-function Admin() {
+function Contactos() {
     const auth = useAuth()
     const [lista, setLista] = useState([]);
 
@@ -23,7 +23,7 @@ function Admin() {
     try {
 
         useEffect(() => {
-            if (inputBuscar.valido === null ) listContacts()
+            if (inputBuscar.valido === null) listContacts()
             if (inputBuscar.valido === 'false') listContacts()
             document.title = 'Contacts'
         }, [inputBuscar])
@@ -43,7 +43,7 @@ function Admin() {
         )
 
         const listContacts = async () => {
-            axios.post(URL + '/admin/all').then(json => {
+            axios.post(URL + '/contactos/all').then(json => {
                 if (json.data.ok)
                     setLista(json.data.data)
                 else
@@ -51,29 +51,9 @@ function Admin() {
             })
         }
 
-        const eliminar = async (numero) => {
-
-            const ok = window.confirm('¿está seguro de eliminar este registro?');
-            if (ok) {
-                if (numero !== null) {
-
-                    axios.post(URL + '/admin/eliminar', { numero: numero }).then(json => {
-                        if (json.data.ok) {
-                            setLista(json.data.data)
-                            toast.success(json.data.msg)
-                        }
-                        else
-                            toast.error(json.data.msg)
-                    })
-
-                }
-            }
-        }
-
-
 
         const buscar = () => {
-            let dir = URL + '/admin/buscar'
+            let dir = URL + '/contactos/buscar'
             if (inputBuscar.valido === 'true') {
                 // console.log('pasa validaciones')
 
@@ -83,38 +63,6 @@ function Admin() {
 
                     }
                     else toast.error(json.data.msg)
-                })
-            }
-        }
-
-
-        const siguiente = () => {
-            let  dir = URL + '/admin/sig'
-
-            if (lista.length > 0) {
-                const last = lista[lista.length - 1].id
-                // console.log(last, lista)
-                axios.post(dir, { id: last }).then(json => {
-                    if (json.data.ok) {
-                        setLista(json.data.data)
-                    } else {
-                        toast.error(json.data.msg)
-                    }
-                })
-            }
-        }
-
-        const anterior = () => {
-            let dir = URL + '/admin/ant'
-            if (lista.length > 0) {
-                const last = lista[0].id
-                console.log(last, lista)
-                axios.post(dir, { id: last }).then(json => {
-                    if (json.data.ok) {
-                        setLista(json.data.data)
-                    } else {
-                        toast.error(json.data.msg)
-                    }
                 })
             }
         }
@@ -145,7 +93,7 @@ function Admin() {
                                                     cambiarEstado={setInputBuscar}
                                                     name="inputBuscar"
                                                     ExpresionRegular={INPUT.INPUT_BUSCAR}  //expresion regular
-                                                    placeholder="Escriba para filtrar ..."
+                                                    placeholder="Número"
                                                     eventoBoton={buscar}
                                                     // evento2 = {b}
                                                     etiqueta={'Buscar'}
@@ -161,7 +109,6 @@ function Admin() {
                                                             <th className="col-4 ">Nombre</th>
                                                             <th className="col-4 ">Dispositivo</th>
                                                             <th className="col-1 ">Fecha</th>
-                                                            <th className="col-1 text-center">Acciones</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
@@ -171,10 +118,6 @@ function Admin() {
                                                                 <td className="col-4 ">{s.name}</td>
                                                                 <td className="col-4 ">{s.headline}</td>
                                                                 <td className="col-1 ">{s.date}</td>
-
-                                                                <td className="col-1 largTable">
-                                                                    <FontAwesomeIcon icon={faTrashAlt} onClick={() => eliminar(s.number)} className='botonEliminar' />
-                                                                </td>
 
                                                             </tr>
                                                         ))}
@@ -188,9 +131,9 @@ function Admin() {
                                         <div className='contenedor-foot'>
                                             <div className='navegador-tabla'>
                                                 <div className='row'>
-                                                    <FontAwesomeIcon className='col-auto anterior' icon={faArrowLeft} onClick={() => anterior()} > </FontAwesomeIcon>
+                                                    <FontAwesomeIcon className='col-auto anterior' icon={faArrowLeft}  > </FontAwesomeIcon>
                                                     <div className=' col-auto now'>{lista.length > 0 ? lista[lista.length - 1].id + ' - ' + lista[0].id : '0   -   0'}</div>
-                                                    <FontAwesomeIcon className='col-auto next' icon={faArrowRight} onClick={() => siguiente()}> </FontAwesomeIcon>
+                                                    <FontAwesomeIcon className='col-auto next' icon={faArrowRight} > </FontAwesomeIcon>
                                                 </div>
                                             </div>
                                         </div>
@@ -209,4 +152,4 @@ function Admin() {
     }
 
 }
-export default Admin;
+export default Contactos;

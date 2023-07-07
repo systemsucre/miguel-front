@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import React from 'react';
 // import { Dropdown, DropdownItem, DropdownMenu, DropdownToggle } from 'reactstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {  faLayerGroup,  faPowerOff, } from '@fortawesome/free-solid-svg-icons';
+import { faLayerGroup, faPowerOff, } from '@fortawesome/free-solid-svg-icons';
 
 
 function Home() {
@@ -20,6 +20,13 @@ function Home() {
         let ok = window.confirm('Cerrar Sesion ?')
         if (ok) {
             auth.logout()
+        }
+    }
+
+    const salirUser = () => {
+        let ok = window.confirm('Cerrar Sesion ?')
+        if (ok) {
+            auth.logoutUser()
         }
     }
 
@@ -52,7 +59,8 @@ function Home() {
                         <div className="text-center">
                             <p className="brand-text font-weight-light" style={{ fontSize: '14px' }}>{localStorage.getItem('nombre') + ' ' + localStorage.getItem('apellido')}</p>
                             <p><small className="brand-text font-weight-light" style={{ fontSize: '14px' }}>{localStorage.getItem('rol')}</small></p>
-                            <Link to={'/miPerfil'}>  <p className="brand-text font-weight-light" style={{ fontSize: '14px', color: 'white' }}>Gestionar mi Perfil</p></Link>
+                            {(parseInt(localStorage.getItem('numRol')) === 1) ? <Link to={'/miPerfil'}>  <p className="brand-text font-weight-light" style={{ fontSize: '14px', color: 'white' }}>Gestionar mi Perfil</p></Link> :
+                                <p className="brand-text font-weight-light" style={{ fontSize: '14px', color: 'white' }}>{localStorage.getItem('email')}</p>}
                         </div>
                     </div>
 
@@ -61,7 +69,7 @@ function Home() {
 
                             <div>
                                 <ul className="nav nav-pills nav-sidebar flex-column " data-widget="treeview" role="menu" data-accordion="false">
-                                    {(parseInt(localStorage.getItem('numRol')) === 1) && <>
+                                    {(parseInt(localStorage.getItem('numRol')) === 1) &&
 
 
                                         <li key="uniqueId1s0sss" className="nav-item">
@@ -70,17 +78,41 @@ function Home() {
                                                 <p>Contactos</p>
                                             </Link>
                                         </li>
+                                    }
+                                    {(parseInt(localStorage.getItem('numRol')) === 2) &&
+                                        <li key="uniqueId1s0ssSs" className="nav-item">
+                                            <Link to='/contactos' className="nav-link">
+                                                <FontAwesomeIcon icon={faLayerGroup} className='nav-icon'></FontAwesomeIcon>
+                                                <p>Contactos</p>
+                                            </Link>
+                                        </li>
 
-                                    </>
+                                    }
+                                    {(parseInt(localStorage.getItem('numRol')) === 2) &&
+                                        <li key="uniqueId1s0s2ss" className="nav-item">
+                                            <Link to='/usuarioPlus' className="nav-link">
+                                                <FontAwesomeIcon icon={faLayerGroup} className='nav-icon'></FontAwesomeIcon>
+                                                <p>Usuario Plus</p>
+                                            </Link>
+                                        </li>
+
                                     }
 
                                     <br></br>
-                                    <li key="uniqueId10gh" className="nav-item " onClick={salir}>
+                                    {(parseInt(localStorage.getItem('numRol')) === 1) ?<li key="uniqueId10gh" className="nav-item " onClick={salir}>
                                         <Link to='#' className="nav-link" >
                                             <FontAwesomeIcon icon={faPowerOff} className='nav-icon' ></FontAwesomeIcon >
                                             <p>Cerrar Sesion</p>
                                         </Link>
-                                    </li>
+                                    </li>:
+                                    <li key="uniqueId10gh" className="nav-item " onClick={salirUser}>
+                                    <Link to='#' className="nav-link" >
+                                        <FontAwesomeIcon icon={faPowerOff} className='nav-icon' ></FontAwesomeIcon >
+                                        <p>Cerrar Sesion</p>
+                                    </Link>
+                                </li>
+
+                                }
 
                                 </ul>
                             </div>
@@ -88,7 +120,6 @@ function Home() {
                     </div>
                 </aside>
             </div >
-
         </>
     )
 }

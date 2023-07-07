@@ -2264,11 +2264,14 @@ a:active {
 
 
 
-
-
-
-
-
+.paymet{
+    margin: 5px;
+    margin-left: 0;
+    color: #444444;
+    font-style: italic;
+    font-weight: bold;
+    cursor: pointer;
+}
 
 
 

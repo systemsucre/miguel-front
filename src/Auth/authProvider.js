@@ -53,10 +53,18 @@ const AuthProvider = ({ children }) => {
 
         },
 
-        asignarEmpleado(id) {
-            console.log(id)
-            localStorage.setItem("empleado", JSON.stringify(id.nombre + ' ' + id.apellido1 + ' ' + id.apellido2))
-            localStorage.setItem("idEmpleado", JSON.stringify(id.id))
+        logoutUser() {
+
+            const token = localStorage.getItem("token")
+            // axios.post(url.url + '/logout', { "token":token })
+            setUser(null)
+            localStorage.removeItem("token")
+            localStorage.removeItem("user")
+            localStorage.removeItem("tiempo")
+            axios.post(URL + '/logoutUSer', { token: token })
+            // return <Redirect to = '/' />
+            window.location.href = "/"
+
         },
 
 

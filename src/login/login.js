@@ -66,7 +66,7 @@ function Formulario() {
       const user = usuario.campo;
 
       try {
-        await axios.get(URL, {
+        await axios.get(URL+'/admin', {
           params: {
             "user": user,
             "pass": pass
@@ -82,7 +82,6 @@ function Formulario() {
             localStorage.setItem('apellido', json.data.apellido)
             localStorage.setItem('rol', json.data.rol)
             localStorage.setItem('numRol', json.data.numRol)
-            localStorage.setItem('url', window.location.href)
             auth.login('ok')
             toast.success(json.data.msg)
           }

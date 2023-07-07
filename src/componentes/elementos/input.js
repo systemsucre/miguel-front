@@ -1794,7 +1794,7 @@ const TituloPagina = ({ titulo }) => {
 const ComponenteInputBuscar_ = ({ estado, cambiarEstado, name, ExpresionRegular, placeholder, eventoBoton, etiqueta }) => {
 
     const onchange = (e) => {
-        cambiarEstado({ ...estado, campo: e.target.value.toUpperCase() }) // cambiarEstado({ ...estado, campo: e.target})
+        cambiarEstado({ ...estado, campo: e.target.value }) // cambiarEstado({ ...estado, campo: e.target})
     }
     const validacion = () => {
         if (ExpresionRegular) {

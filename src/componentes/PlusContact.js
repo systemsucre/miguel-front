@@ -1,20 +1,19 @@
-import { Table,  } from 'reactstrap';
+import { Table, } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {  faArrowLeft, faArrowRight,  faTrashAlt, } from '@fortawesome/free-solid-svg-icons';
+import { faArrowLeft, faArrowRight, faCreditCard, faTrashAlt, } from '@fortawesome/free-solid-svg-icons';
 import React from 'react';
-
+import {Link} from 'react-router-dom'
 import useAuth from "../Auth/useAuth"
-import {  ComponenteInputBuscar_, } from './elementos/input';  // componente input que incluye algunas de las funcionalidades como, setInput, validaciones cambio de estados
+import { ComponenteInputBuscar_, } from './elementos/input';  // componente input que incluye algunas de las funcionalidades como, setInput, validaciones cambio de estados
 
 import { useState, useEffect } from "react";
 import { URL, INPUT } from '../Auth/config';
 import Home from './elementos/home'
 import { Toaster, toast } from 'react-hot-toast'
-
 import axios from 'axios';
 
 
-function Admin() {
+function PlusContact() {
     const auth = useAuth()
     const [lista, setLista] = useState([]);
 
@@ -23,7 +22,7 @@ function Admin() {
     try {
 
         useEffect(() => {
-            if (inputBuscar.valido === null ) listContacts()
+            if (inputBuscar.valido === null) listContacts()
             if (inputBuscar.valido === 'false') listContacts()
             document.title = 'Contacts'
         }, [inputBuscar])
@@ -43,7 +42,7 @@ function Admin() {
         )
 
         const listContacts = async () => {
-            axios.post(URL + '/admin/all').then(json => {
+            axios.post(URL + '/plus/all').then(json => {
                 if (json.data.ok)
                     setLista(json.data.data)
                 else
@@ -52,12 +51,11 @@ function Admin() {
         }
 
         const eliminar = async (numero) => {
-
             const ok = window.confirm('¿está seguro de eliminar este registro?');
             if (ok) {
                 if (numero !== null) {
 
-                    axios.post(URL + '/admin/eliminar', { numero: numero }).then(json => {
+                    axios.post(URL + '/plus/eliminar', { numero: numero }).then(json => {
                         if (json.data.ok) {
                             setLista(json.data.data)
                             toast.success(json.data.msg)
@@ -73,7 +71,7 @@ function Admin() {
 
 
         const buscar = () => {
-            let dir = URL + '/admin/buscar'
+            let dir = URL + '/plus/buscar'
             if (inputBuscar.valido === 'true') {
                 // console.log('pasa validaciones')
 
@@ -89,7 +87,7 @@ function Admin() {
 
 
         const siguiente = () => {
-            let  dir = URL + '/admin/sig'
+            let dir = URL + '/plus/sig'
 
             if (lista.length > 0) {
                 const last = lista[lista.length - 1].id
@@ -105,7 +103,7 @@ function Admin() {
         }
 
         const anterior = () => {
-            let dir = URL + '/admin/ant'
+            let dir = URL + '/plus/ant'
             if (lista.length > 0) {
                 const last = lista[0].id
                 console.log(last, lista)
@@ -131,6 +129,25 @@ function Admin() {
                                     <div className='tituloPaginas'>
                                         Contacts
                                     </div >
+
+
+                                    {(parseInt(localStorage.getItem('estado')) === 0) ?
+                                        <>
+                                            {/* <form action='your-server-side-code' method='POST'>
+                                                <script src='https://checkout.stripe.com/checkout.js' className='stripe-button'
+                                                    data-key='pk_test_51NRMDBCDI4FabAQTXPIToSzBk5rRF2uV4ey0R1c2ZxlCcwIjgrooJVAqwlOGsTONAP99TSDIf2mAEyXw1aNo4MvD00DAJ5kBIn' data-amount='999'
+                                                    data-name='Demo Site'
+                                                    data-description='widget'
+                                                    data-image='https://stripe.com/img/documentation/checkout/marketplace.png'
+                                                    data-locale='auto'
+                                                >
+                                                </script>
+                                            </form> */}
+                                            <Link to = '/stripe'> <span className='paymet'>Haste Usuario Premium por 25Bs. <FontAwesomeIcon icon={faCreditCard}/></span> </Link>
+
+                                        </>
+                                        :
+                                        <span className='paymet'>Ahora es usuario Premium</span>}
                                     <div style={{ background: 'white' }}>
 
                                         <div className='contenedor-cabecera'>
@@ -139,18 +156,21 @@ function Admin() {
                                         </div>
                                         <div className='contenedor'>
 
+
                                             <div className="container-4">
                                                 <ComponenteInputBuscar_
                                                     estado={inputBuscar}
                                                     cambiarEstado={setInputBuscar}
                                                     name="inputBuscar"
-                                                    ExpresionRegular={INPUT.INPUT_BUSCAR}  //expresion regular
-                                                    placeholder="Escriba para filtrar ..."
+                                                    ExpresionRegular={INPUT.INPUT_BUSCARPLUS}  //expresion regular
+                                                    placeholder="Número, Correo, Titular"
                                                     eventoBoton={buscar}
                                                     // evento2 = {b}
-                                                    etiqueta={'Buscar'}
+                                                    etiqueta='Buscar'
                                                 />
+
                                             </div>
+
 
                                             <div className="table table-responsive custom">
 
@@ -209,4 +229,4 @@ function Admin() {
     }
 
 }
-export default Admin;
+export default PlusContact;

@@ -1,10 +1,10 @@
-const DB_DATABASE = process.env.DB_DATABASE || 'sp';
 // const URL = 'https://systemsucre.alwaysdata.net'
  const URL = 'http://localhost:3005'
 
 const TIEMPO_INACTIVO = 60 // MINUTOS DE TOLERANCIA ANTESDE QUE EL USUARIO VUELVA A INTERACTUAR CON EL SISTEMA YA SEA MEDIANTE MUOSE O TECLADO
 const INPUT = {
     INPUT_BUSCAR: /^[()/a-zA-Z Ññ0-9_-]{1,400}$/,
+    INPUT_BUSCARPLUS: /^[()/a-zA-Z.@ Ññ0-9_-]{1,400}$/,
     INPUT_USUARIO: /^[a-zA-ZÑñ]{4,16}$/, // Letras, numeros, guion y guion_bajo
     PASSWORD: /^.{4,12}$/, // 4 a 12 digitos.
     NOMBRE_PERSONA: /^[a-zA-ZÑñ ]{2,30}$/,
@@ -33,5 +33,5 @@ const INPUT = {
     IMG: /.jpg|.jpeg|.png/i,
 }
 export {
-    URL, DB_DATABASE, INPUT, TIEMPO_INACTIVO
+    URL, INPUT, TIEMPO_INACTIVO
 }

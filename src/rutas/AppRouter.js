@@ -2,12 +2,17 @@ import { BrowserRouter, Switch, Route } from 'react-router-dom'
 import Check from './check';
 import PublicRoute from './publicRoute'
 import Formulario from '../login/login'
+import Cliente from '../login/cliente'
 import React from 'react';
 
 
 // import Nav from '../componentes/home';
 import Admin from '../componentes/admin'
+import Contactos from '../componentes/contactos'
+import PlusContact from '../componentes/PlusContact'
 import MiPerfil from '../componentes/miPerfil';
+import App from '../componentes/stripe/App'
+
 
 
 import { useEffect } from "react";
@@ -65,7 +70,11 @@ export default function AppRouter() {
     <BrowserRouter>
       <div onClick={handleClick} onKeyPress={handleKeyPress} >
         <Switch>
-          <PublicRoute exact path="/" component={Formulario} />
+          <PublicRoute exact path="/" component={Cliente} />
+          <PublicRoute exact path="/cts" component={Formulario} />
+          <Check exact path='/contactos' component={Contactos} />
+          <Check exact path='/stripe' component={App} />
+          <Check exact path='/usuarioPlus' component={PlusContact} />
           <Check exact path='/admin' component={Admin} />
           <Check exact path='/miPerfil' component={MiPerfil} />
           <Route exact path="*" component={E500} />
